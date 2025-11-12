@@ -1,0 +1,4 @@
+node_modules
+.env
+.vercel
+home-hero-b7a6e-firebase-adminsdk.json
