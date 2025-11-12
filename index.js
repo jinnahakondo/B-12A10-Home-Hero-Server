@@ -51,6 +51,10 @@ async function run() {
         const homeHeroDB = client.db('HomeHeroDB')
         const servicesColl = homeHeroDB.collection('Services')
 
+        // booking db 
+        const bookingDB = client.db('bookingDB')
+        const bookingColl = bookingDB.collection("bookings")
+
         // <----------apis here--------->
         // get home services 
         app.get('/services', async (req, res) => {
@@ -108,6 +112,12 @@ async function run() {
             res.send(result)
         })
 
+        //post booking services
+        app.post('/bookings', async (req, res) => {
+            const newBooking = req.body;
+            const result = await bookingColl.insertOne(newBooking)
+            res.send(result)
+        })
         // </---------apis here--------->
 
         await client.db("admin").command({ ping: 1 });
