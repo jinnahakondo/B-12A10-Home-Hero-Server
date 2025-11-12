@@ -86,6 +86,15 @@ async function run() {
             res.send(result)
         })
 
+        //update a single data
+        app.patch('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateService = req.body;
+            const update = { $set: updateService }
+            const result = await servicesColl.updateOne({ _id: new ObjectId(id) }, update);
+            res.send(result)
+        })
+
 
         // </---------apis here--------->
 
