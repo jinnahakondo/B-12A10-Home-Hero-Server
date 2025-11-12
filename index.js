@@ -52,9 +52,15 @@ async function run() {
         const servicesColl = homeHeroDB.collection('Services')
 
         // <----------apis here--------->
-        // get all data  
+        // get home services 
         app.get('/services', async (req, res) => {
             const result = await servicesColl.find().toArray()
+            res.send(result)
+        })
+
+        // get home services
+        app.get('/services/home', async (req, res) => {
+            const result = await servicesColl.find().sort({ created_at: -1 }).limit(6).toArray()
             res.send(result)
         })
         //get a single data 
@@ -64,7 +70,7 @@ async function run() {
             res.send(result)
         })
 
-        // all query data 
+        // all query servoce
 
         app.get('/my-services', verifyFBToken, async (req, res) => {
             const email = req.query.email;
@@ -86,15 +92,21 @@ async function run() {
             res.send(result)
         })
 
-        //update a single data
+        //update a service
         app.patch('/services/:id', async (req, res) => {
             const id = req.params.id;
             const updateService = req.body;
             const update = { $set: updateService }
             const result = await servicesColl.updateOne({ _id: new ObjectId(id) }, update);
-            res.send(result)
+            res.send(result);
         })
 
+        //delete a service
+        app.delete('/services/:id', (req, res) => {
+            const id = req.params.id;
+            const result = servicesColl.deleteOne({ _id: new ObjectId(id) })
+            res.send(result)
+        })
 
         // </---------apis here--------->
 
