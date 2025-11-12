@@ -75,7 +75,7 @@ async function run() {
                 }
                 query.email = email;
             }
-            const result = await servicesColl.find(query).toArray();
+            const result = await servicesColl.find(query).sort({ created_at: -1 }).toArray();
             res.send(result)
         })
 
