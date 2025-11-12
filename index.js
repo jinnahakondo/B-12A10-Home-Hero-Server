@@ -116,6 +116,21 @@ async function run() {
             const result = await bookingColl.insertOne(newBooking)
             res.send(result)
         })
+
+        //get bookings query 
+        app.get("/my-bookings", verifyFBToken, async (req, res) => {
+            const email = req.query.email;
+            const query = {}
+            if (email) {
+                if (email !== req.token_email) {
+                    return res.status(403).send({ message: "forbidden access" })
+                }
+                query.email = email;
+            }
+            const result = await bookingColl.find(query).toArray();
+            res.send(result)
+        })
+
         // </---------apis here--------->
 
         // await client.db("admin").command({ ping: 1 });
