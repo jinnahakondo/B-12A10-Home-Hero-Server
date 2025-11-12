@@ -50,10 +50,8 @@ async function run() {
         await client.connect();
         const homeHeroDB = client.db('HomeHeroDB')
         const servicesColl = homeHeroDB.collection('Services')
-
-        // booking db 
-        const bookingDB = client.db('bookingDB')
-        const bookingColl = bookingDB.collection("bookings")
+        // booking collection
+        const bookingColl = homeHeroDB.collection("bookings")
 
         // <----------apis here--------->
         // get home services 
@@ -120,8 +118,8 @@ async function run() {
         })
         // </---------apis here--------->
 
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        // await client.db("admin").command({ ping: 1 });
+        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish
 
