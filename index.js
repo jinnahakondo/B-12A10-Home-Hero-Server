@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const admin = require("firebase-admin");
 const serviceAccount = require("./home-hero-b7a6e-firebase-adminsdk.json");
 require('dotenv').config()
@@ -57,7 +57,12 @@ async function run() {
             const result = await servicesColl.find().toArray()
             res.send(result)
         })
-
+        //get a single data 
+        app.get('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const result = await servicesColl.findOne({ _id: new ObjectId(id) })
+            res.send(result)
+        })
 
         // all query data 
 
@@ -75,16 +80,13 @@ async function run() {
         })
 
         // add services 
-        app.post('/services', verifyFBToken, async (req, res) => {
+        app.post('/services', async (req, res) => {
             const newServices = req.body;
             const result = await servicesColl.insertOne(newServices);
             res.send(result)
         })
 
-        //get data with email
-        // app.get('/services', async (req, res) => {
-        //     console.log(req.query.email);
-        // })
+
         // </---------apis here--------->
 
         await client.db("admin").command({ ping: 1 });
