@@ -63,6 +63,24 @@ async function run() {
             res.send(result)
         })
 
+        //for filter
+        app.get('/filter-services', async (req, res) => {
+            const min = parseInt(req.query.min);
+            const max = parseInt(req.query.max);
+            const query = {}
+            if (min && !max) {
+                query.Price = { $gte: min }
+            }
+            else if (max && !min) {
+                query.Price = { $lte: max }
+            }
+            else if (min && max) {
+                query.Price = { $gte: min, $lte: max }
+            }
+            const result = await servicesColl.find(query).toArray();
+            res.send(result)
+        })
+
         // get home services
         app.get('/services/home', async (req, res) => {
             const result = await servicesColl.find().sort({ created_at: -1 }).limit(6).toArray()
@@ -152,6 +170,11 @@ async function run() {
             res.send(result)
 
         })
+
+
+
+
+
         // </---------apis here--------->
 
         // await client.db("admin").command({ ping: 1 });
