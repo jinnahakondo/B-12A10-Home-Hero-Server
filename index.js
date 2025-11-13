@@ -1,7 +1,6 @@
 const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const admin = require("firebase-admin");
-const serviceAccount = require("./home-hero-b7a6e-firebase-adminsdk.json");
 require('dotenv').config()
 const cors = require('cors')
 const app = express()
@@ -9,6 +8,10 @@ const port = process.env.PORT || 3000;
 
 
 // <--------firebase admin-------->
+
+const decoded = Buffer.from(process.env.FIREBASE_SERVICE_KEY, "base64").toString("utf8");
+const serviceAccount = JSON.parse(decoded);
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -131,6 +134,12 @@ async function run() {
             res.send(result)
         })
 
+        //delete booking
+        app.delete('/booking/:id', async (req, res) => {
+            const id = req.params.id;
+            const result = await bookingColl.deleteMany({ _id: new ObjectId(id) })
+            res.send(result)
+        })
         // </---------apis here--------->
 
         // await client.db("admin").command({ ping: 1 });
