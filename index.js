@@ -141,6 +141,17 @@ async function run() {
             const result = await bookingColl.deleteOne({ _id: new ObjectId(id) })
             res.send(result)
         })
+
+        //add review 
+        app.patch('/services/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const review = req.body;
+            const query = { _id: new ObjectId(id) }
+            const update = { $set: { reviews: review } }
+            const result = await servicesColl.updateOne(query, update);
+            res.send(result)
+
+        })
         // </---------apis here--------->
 
         // await client.db("admin").command({ ping: 1 });
