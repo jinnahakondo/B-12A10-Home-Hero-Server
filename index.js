@@ -172,7 +172,11 @@ async function run() {
         })
 
 
-
+        // testimonials 
+        app.get('/testimonials', async (req, res) => {
+            const result = await servicesColl.find().project({ serviceReviews: 1 }).toArray()
+            res.send(result)
+        })
 
 
         // </---------apis here--------->
