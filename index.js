@@ -71,6 +71,7 @@ async function run() {
         //get a single data 
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
+            console.log(id);
             const result = await servicesColl.findOne({ _id: new ObjectId(id) })
             res.send(result)
         })
@@ -107,9 +108,9 @@ async function run() {
         })
 
         //delete a service
-        app.delete('/services/:id', (req, res) => {
+        app.delete('/services/:id', async (req, res) => {
             const id = req.params.id;
-            const result = servicesColl.deleteOne({ _id: new ObjectId(id) })
+            const result = await servicesColl.deleteOne({ _id: new ObjectId(id) })
             res.send(result)
         })
 
@@ -137,7 +138,7 @@ async function run() {
         //delete booking
         app.delete('/booking/:id', async (req, res) => {
             const id = req.params.id;
-            const result = await bookingColl.deleteMany({ _id: new ObjectId(id) })
+            const result = await bookingColl.deleteOne({ _id: new ObjectId(id) })
             res.send(result)
         })
         // </---------apis here--------->
