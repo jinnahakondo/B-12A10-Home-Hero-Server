@@ -147,7 +147,7 @@ async function run() {
             const id = req.params.id;
             const review = req.body;
             const query = { _id: new ObjectId(id) }
-            const update = { $set: { reviews: review } }
+            const update = { $push: { serviceReviews: review } }
             const result = await servicesColl.updateOne(query, update);
             res.send(result)
 
