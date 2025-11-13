@@ -85,7 +85,7 @@ async function run() {
                 if (email !== req.token_email) {
                     return res.status(403).send({ message: "forbidden access" })
                 }
-                query.email = email;
+                query.Email = email;
             }
             const result = await servicesColl.find(query).sort({ created_at: -1 }).toArray();
             res.send(result)
@@ -129,7 +129,7 @@ async function run() {
                 if (email !== req.token_email) {
                     return res.status(403).send({ message: "forbidden access" })
                 }
-                query.email = email;
+                query.Email = email;
             }
             const result = await bookingColl.find(query).toArray();
             res.send(result)
